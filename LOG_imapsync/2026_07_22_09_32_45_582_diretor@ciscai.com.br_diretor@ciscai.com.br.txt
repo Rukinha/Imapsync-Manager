@@ -1,0 +1,260 @@
+Here is imapsync 2.229 on host plenus-dev4, a linux system with 2.7/3.8 free GiB of RAM, 23.20% used by processes.
+with Perl 5.38.2 and Mail::IMAPClient 3.43
+Transfer started at Wednesday 22 July 2026-07-22 09:32:45 -0300 -03
+PID is 1774 my PPID is 1763
+Log file is LOG_imapsync/2026_07_22_09_32_45_582_diretor@ciscai.com.br_diretor@ciscai.com.br.txt ( to change it, use --logfile path ; or use --nolog to turn off logging )
+Load is 0.08 0.04 0.01 6/182 on 4 cores
+Current directory is /home/plenus/imapsync-manager
+Real user id is plenus (uid 1000)
+Effective user id is plenus (euid 1000)
+$RCSfile: imapsync,v $ $Revision: 2.229 $ $Date: 2022/09/14 18:08:24 $ 
+Command line used, run by /usr/bin/perl:
+/usr/local/bin/imapsync --host1 162.215.12.12 --port1 143 --user1 diretor@ciscai.com.br --password1 MASKED --host2 162.215.12.12 --port2 143 --user2 diretor@ciscai.com.br --password2 MASKED --timeout 60 --automap --subscribe --syncinternaldates --skipsize --nofoldersizes --noauthmd5
+Temp directory is /tmp ( to change it use --tmpdir dirpath )
+kill -QUIT 1774 # special behavior: call to sub catch_exit
+kill -TERM 1774 # special behavior: call to sub catch_exit
+kill -INT 1774 # special behavior: call to sub catch_reconnect
+kill -HUP 1774 # special behavior: call to sub catch_print
+kill -USR1 1774 # special behavior: call to sub toggle_sleep
+File /tmp/imapsync.pid does not exist
+PID file is /tmp/imapsync.pid ( to change it, use --pidfile filepath ; to avoid it use --pidfile "" )
+Writing my PID 1774 in /tmp/imapsync.pid
+Writing also my logfile name in /tmp/imapsync.pid : LOG_imapsync/2026_07_22_09_32_45_582_diretor@ciscai.com.br_diretor@ciscai.com.br.txt
+Modules version list ( use --no-modulesversion to turn off printing this Perl modules list ):
+Authen::NTLM         1.09
+CGI                  Not installed
+Compress::Zlib       2.207
+Crypt::OpenSSL::RSA  0.33
+Data::Uniqid         0.12
+Digest::HMAC_MD5     1.04
+Digest::HMAC_SHA1    1.04
+Digest::MD5          2.58_01
+Encode               3.19
+Encode::IMAPUTF7     1.05
+File::Copy::Recursive 0.45
+File::Spec           3.88
+Getopt::Long         2.54
+HTML::Entities       3.81
+IO::Socket           1.52
+IO::Socket::INET     1.52
+IO::Socket::INET6    2.73
+IO::Socket::IP       0.4101
+IO::Socket::SSL      2.085
+IO::Tee              0.65
+JSON                 4.10
+JSON::WebToken       0.10
+LWP                  6.76
+MIME::Base64         3.16_01
+Mail::IMAPClient     3.43
+Net::Ping            2.76
+Net::SSLeay          1.94
+Term::ReadKey        2.38
+Test::MockObject     1.20200122
+Time::HiRes          1.9775
+URI::Escape          5.27
+Unicode::String      2.10
+
+Info: will resync flags for already transferred messages. Use --noresyncflags to not resync flags.
+Info: turned ON syncinternaldates, will set the internal dates (arrival dates) on host2 same as host1.
+Host1: will try to use LOGIN authentication on host1
+Host2: will try to use LOGIN authentication on host2
+Host1: imap connection timeout is 60 seconds
+Host2: imap connection timeout is 60 seconds
+Host1: imap connection keepalive is on on host1. Use --nokeepalive1 to disable it.
+Host2: imap connection keepalive is on on host2. Use --nokeepalive2 to disable it.
+Host1: IMAP server [162.215.12.12] port [143] user [diretor@ciscai.com.br]
+Host2: IMAP server [162.215.12.12] port [143] user [diretor@ciscai.com.br]
+Host1: connecting and login on host1 [162.215.12.12] port [143] with user [diretor@ciscai.com.br]
+Host1 IP address: 162.215.12.12 Local IP address: 172.20.238.79
+Host1 banner: * OK [CAPABILITY IMAP4rev1 SASL-IR LOGIN-REFERRALS ID ENABLE IDLE NAMESPACE LITERAL+ STARTTLS AUTH=PLAIN AUTH=LOGIN] Dovecot ready.
+Host1 capability before authentication: IMAP4rev1 SASL-IR LOGIN-REFERRALS ID ENABLE IDLE NAMESPACE LITERAL+ STARTTLS AUTH=PLAIN AUTH=LOGIN AUTH
+Host1: going to ssl because STARTTLS is in CAPABILITY. Use --notls1 or --notls2 to avoid that behavior
+Host1: Socket successfully converted to SSL
+Host1: 162.215.12.12 says it has CAPABILITY for AUTHENTICATE LOGIN
+Host1: success login on [162.215.12.12] with user [diretor@ciscai.com.br] auth [LOGIN] or [LOGIN]
+Host2: connecting and login on host2 [162.215.12.12] port [143] with user [diretor@ciscai.com.br]
+Host2 IP address: 162.215.12.12 Local IP address: 172.20.238.79
+Host2 banner: * OK [CAPABILITY IMAP4rev1 SASL-IR LOGIN-REFERRALS ID ENABLE IDLE NAMESPACE LITERAL+ STARTTLS AUTH=PLAIN AUTH=LOGIN] Dovecot ready.
+Host2 capability before authentication: IMAP4rev1 SASL-IR LOGIN-REFERRALS ID ENABLE IDLE NAMESPACE LITERAL+ STARTTLS AUTH=PLAIN AUTH=LOGIN AUTH
+Host2: going to ssl because STARTTLS is in CAPABILITY. Use --notls1 or --notls2 to avoid that behavior
+Host2: Socket successfully converted to SSL
+Host2: 162.215.12.12 says it has CAPABILITY for AUTHENTICATE LOGIN
+Host2: success login on [162.215.12.12] with user [diretor@ciscai.com.br] auth [LOGIN] or [LOGIN]
+Host1: state Authenticated
+Host2: state Authenticated
+Host1 capability once authenticated: IMAP4rev1 SASL-IR LOGIN-REFERRALS ID ENABLE IDLE SORT SORT=DISPLAY THREAD=REFERENCES THREAD=REFS THREAD=ORDEREDSUBJECT MULTIAPPEND URL-PARTIAL CATENATE UNSELECT CHILDREN NAMESPACE UIDPLUS LIST-EXTENDED I18NLEVEL=1 CONDSTORE QRESYNC ESEARCH ESORT SEARCHRES WITHIN CONTEXT=SEARCH LIST-STATUS BINARY MOVE SNIPPET=FUZZY PREVIEW=FUZZY PREVIEW STATUS=SIZE SAVEDATE NAMESPACE LITERAL+ NOTIFY SPECIAL-USE COMPRESS=DEFLATE QUOTA THREAD I18NLEVEL CONTEXT SNIPPET PREVIEW STATUS COMPRESS
+Host2 capability once authenticated: IMAP4rev1 SASL-IR LOGIN-REFERRALS ID ENABLE IDLE SORT SORT=DISPLAY THREAD=REFERENCES THREAD=REFS THREAD=ORDEREDSUBJECT MULTIAPPEND URL-PARTIAL CATENATE UNSELECT CHILDREN NAMESPACE UIDPLUS LIST-EXTENDED I18NLEVEL=1 CONDSTORE QRESYNC ESEARCH ESORT SEARCHRES WITHIN CONTEXT=SEARCH LIST-STATUS BINARY MOVE SNIPPET=FUZZY PREVIEW=FUZZY PREVIEW STATUS=SIZE SAVEDATE NAMESPACE LITERAL+ NOTIFY SPECIAL-USE COMPRESS=DEFLATE QUOTA THREAD I18NLEVEL CONTEXT SNIPPET PREVIEW STATUS COMPRESS
+Host1: found ID capability. Sending/receiving ID, presented in raw IMAP for now.
+In order to avoid sending/receiving ID, use option --noid
+Sending: 6 ID ("name" "imapsync" "version" "2.229" "os" "linux" "vendor" "Gilles LAMIRAL" "support-url" "https://imapsync.lamiral.info/" "date" "14-Sep-2022 18:08:24 +0000" "side" "host1")
+Sent 181 bytes
+Read: 	* ID ("name" "Dovecot")
+  	6 OK ID completed (0.001 + 0.000 secs).
+Host2: found ID capability. Sending/receiving ID, presented in raw IMAP for now.
+In order to avoid sending/receiving ID, use option --noid
+Sending: 6 ID ("name" "imapsync" "version" "2.229" "os" "linux" "vendor" "Gilles LAMIRAL" "support-url" "https://imapsync.lamiral.info/" "date" "14-Sep-2022 18:08:24 +0000" "side" "host2")
+Sent 181 bytes
+Read: 	* ID ("name" "Dovecot")
+  	6 OK ID completed (0.001 + 0.000 secs).
+
+Host2: QUOTA capability found, presented in raw IMAP on next lines
+Sending: 7 GETQUOTAROOT INBOX
+Sent 22 bytes
+Read: 	7 NO Internal quota calculation error (0.001 + 0.000 secs).
+ERROR: 7 NO Internal quota calculation error (0.001 + 0.000 secs). at /usr/share/perl5/Mail/IMAPClient.pm line 1388.
+	Mail::IMAPClient::__ANON__("7 NO Internal quota calculation error (0.001 + 0.000 secs).\x{d}\x{a}") called at /usr/share/perl5/Mail/IMAPClient.pm line 1424
+	Mail::IMAPClient::_get_response(Mail::IMAPClient=HASH(0x5a385e6c9378), 7, undef) called at /usr/share/perl5/Mail/IMAPClient.pm line 1350
+	Mail::IMAPClient::_imap_command_do(Mail::IMAPClient=HASH(0x5a385e6c9378), "GETQUOTAROOT INBOX") called at /usr/share/perl5/Mail/IMAPClient.pm line 1248
+	Mail::IMAPClient::_imap_command(Mail::IMAPClient=HASH(0x5a385e6c9378), "GETQUOTAROOT INBOX") called at /usr/share/perl5/Mail/IMAPClient.pm line 3452
+	Mail::IMAPClient::getquotaroot(Mail::IMAPClient=HASH(0x5a385e6c9378), "INBOX") called at /usr/local/bin/imapsync line 5934
+	main::quota(HASH(0x5a385d017498), Mail::IMAPClient=HASH(0x5a385e6c9378), "h2") called at /usr/local/bin/imapsync line 2082
+	main::single_sync(HASH(0x5a385d017498), HASH(0x5a385b1fc538), HASH(0x5a385d017a50)) called at /usr/local/bin/imapsync line 1367
+ERROR: 7 NO Internal quota calculation error (0.001 + 0.000 secs). at /usr/share/perl5/Mail/IMAPClient.pm line 1298.
+	Mail::IMAPClient::_imap_command(Mail::IMAPClient=HASH(0x5a385e6c9378), "GETQUOTAROOT INBOX") called at /usr/share/perl5/Mail/IMAPClient.pm line 3452
+	Mail::IMAPClient::getquotaroot(Mail::IMAPClient=HASH(0x5a385e6c9378), "INBOX") called at /usr/local/bin/imapsync line 5934
+	main::quota(HASH(0x5a385d017498), Mail::IMAPClient=HASH(0x5a385e6c9378), "h2") called at /usr/local/bin/imapsync line 2082
+	main::single_sync(HASH(0x5a385d017498), HASH(0x5a385b1fc538), HASH(0x5a385d017a50)) called at /usr/local/bin/imapsync line 1367
+
+Host2: Quota current storage is 0 bytes. Limit is 0 bytes. So 0 % full
+Host1: Compression is off. Use --compress1 to allow compression on host1
+Host2: Compression is off. Use --compress2 to allow compression on host2
+Host1: found 6 folders.
+Host2: found 6 folders.
+Host1: guessing separator from folder listing: [.]
+Host1: separator given by NAMESPACE: [.]
+Host2: guessing separator from folder listing: [.]
+Host2: separator given by NAMESPACE: [.]
+Host1: guessing prefix from folder listing: [INBOX.]
+Host1: prefix given by NAMESPACE: [INBOX.]
+Host2: guessing prefix from folder listing: [INBOX.]
+Host2: prefix given by NAMESPACE: [INBOX.]
+Host1: separator and prefix: [.][INBOX.]
+Host2: separator and prefix: [.][INBOX.]
+Including all folders found by default. Use --subscribed or --folder or --folderrec or --include to select specific folders. Use --exclude to unselect specific folders.
+Host1: Checking wanted folders exist. Use --nocheckfoldersexist to avoid this check (shared of public namespace targeted).
+Host1: Checking wanted folders are selectable. Use --nocheckselectable to avoid this check.
+Turned on automapping folders ( use --noautomap to turn off automapping )
+Host1: special INBOX.Trash          = \Trash
+Host1: special INBOX.spam           = \Junk
+Host1: special INBOX.Drafts         = \Drafts
+Host1: special INBOX.Sent           = \Sent
+Host1: special INBOX.Archive        = \Archive
+
+Host2: special INBOX.Trash          = \Trash
+Host2: special INBOX.spam           = \Junk
+Host2: special INBOX.Drafts         = \Drafts
+Host2: special INBOX.Sent           = \Sent
+Host2: special INBOX.Archive        = \Archive
+
+
+++++ Listing folders
+All foldernames are presented between brackets like [X] where X is the foldername.
+When a foldername contains non-ASCII characters it is presented in the form
+[X] = [Y] where
+X is the imap foldername you have to use in command line options and
+Y is the utf8 output just printed for convenience, to recognize it.
+
+Host1: folders list (first the raw imap format then the [X] = [Y]):
+* LIST (\HasChildren) "." INBOX
+* LIST (\HasNoChildren \Trash) "." INBOX.Trash
+* LIST (\HasNoChildren \Junk) "." INBOX.spam
+* LIST (\HasNoChildren \Drafts) "." INBOX.Drafts
+* LIST (\HasNoChildren \Sent) "." INBOX.Sent
+* LIST (\HasNoChildren \Archive) "." INBOX.Archive
+18 OK List completed (0.001 + 0.000 secs).
+
+[INBOX]
+[INBOX.Archive]
+[INBOX.Drafts]
+[INBOX.Sent]
+[INBOX.Trash]
+[INBOX.spam]
+
+Host2: folders list (first the raw imap format then the [X] = [Y]):
+* LIST (\HasChildren) "." INBOX
+* LIST (\HasNoChildren \Trash) "." INBOX.Trash
+* LIST (\HasNoChildren \Junk) "." INBOX.spam
+* LIST (\HasNoChildren \Drafts) "." INBOX.Drafts
+* LIST (\HasNoChildren \Sent) "." INBOX.Sent
+* LIST (\HasNoChildren \Archive) "." INBOX.Archive
+13 OK List completed (0.001 + 0.000 secs).
+
+[INBOX]
+[INBOX.Archive]
+[INBOX.Drafts]
+[INBOX.Sent]
+[INBOX.Trash]
+[INBOX.spam]
+
+Folders mapping from --automap feature (use --f1f2 to override any mapping):
+[INBOX.spam]                             -> [INBOX.spam]                            
+[INBOX.Trash]                            -> [INBOX.Trash]                           
+[INBOX.Drafts]                           -> [INBOX.Drafts]                          
+[INBOX.Sent]                             -> [INBOX.Sent]                            
+[INBOX.Archive]                          -> [INBOX.Archive]                         
+
+Checking SEARCH ALL works on both accounts. To avoid that check, use --nochecknoabletosearch
+Host1: checking if SEARCH ALL works on INBOX
+Host1 folder INBOX: Could not select: 19 NO [SERVERBUG] Internal error occurred. Refer to server log for more information. [2026-07-22 09:33:00] (0.001 + 0.000 + 0.001 secs).
+Host1: can not SELECT folder [INBOX]
+Host2: checking if SEARCH ALL works on INBOX
+Host2 folder INBOX: Could not select: 14 NO [SERVERBUG] Internal error occurred. Refer to server log for more information. [2026-07-22 09:33:00] (0.001 + 0.000 secs).
+Host2: can not SELECT folder [INBOX]
+Good! SEARCH ALL works on both accounts.
+++++ Looping on each one of 6 folders to sync
+Folder     1/6 [INBOX]                             -> [INBOX]                            
+Host1 folder INBOX: Could not select: 20 NO [SERVERBUG] Internal error occurred. Refer to server log for more information. [2026-07-22 09:33:01] (0.001 + 0.000 secs).
+Folder     2/6 [INBOX.Archive]                     -> [INBOX.Archive]                    
+Host1 folder INBOX.Archive: Could not select: 21 NO [SERVERBUG] Internal error occurred. Refer to server log for more information. [2026-07-22 09:33:01] (0.336 + 0.000 + 0.335 secs).
+Folder     3/6 [INBOX.Drafts]                      -> [INBOX.Drafts]                     
+Host1 folder INBOX.Drafts: Could not select: 22 NO [SERVERBUG] Internal error occurred. Refer to server log for more information. [2026-07-22 09:33:01] (0.039 + 0.000 + 0.038 secs).
+Folder     4/6 [INBOX.Sent]                        -> [INBOX.Sent]                       
+Host1 folder INBOX.Sent: Could not select: 23 NO [SERVERBUG] Internal error occurred. Refer to server log for more information. [2026-07-22 09:33:02] (0.002 + 0.000 + 0.001 secs).
+Folder     5/6 [INBOX.Trash]                       -> [INBOX.Trash]                      
+Host1 folder INBOX.Trash: Could not select: 24 NO [SERVERBUG] Internal error occurred. Refer to server log for more information. [2026-07-22 09:33:02] (0.001 + 0.000 secs).
+Folder     6/6 [INBOX.spam]                        -> [INBOX.spam]                       
+Host1 folder INBOX.spam: Could not select: 25 NO [SERVERBUG] Internal error occurred. Refer to server log for more information. [2026-07-22 09:33:02] (0.001 + 0.000 secs).
+++++ End looping on each folder
+++++ Statistics
+Transfer started on                     : Wednesday 22 July 2026-07-22 09:32:45 -0300 -03
+Transfer ended on                       : Wednesday 22 July 2026-07-22 09:33:01 -0300 -03
+Transfer time                           : 16.2 sec
+Folders synced                          : 6/6 synced
+Messages transferred                    : 0 
+Messages skipped                        : 0
+Messages found duplicate on host1       : 0
+Messages found duplicate on host2       : 0
+Messages found crossduplicate on host2  : 0
+Messages void (noheader) on host1       : 0  
+Messages void (noheader) on host2       : 0
+Messages found in host1 not in host2    : 0 messages
+Messages found in host2 not in host1    : 0 messages
+Messages deleted on host1               : 0
+Messages deleted on host2               : 0
+Total bytes transferred                 : 0 (0.000 KiB)
+Total bytes skipped                     : 0 (0.000 KiB)
+Message rate                            : 0.0 messages/s
+Average bandwidth rate                  : 0.0 KiB/s
+Reconnections to host1                  : 0
+Reconnections to host2                  : 0
+Memory consumption at the end           : 174.1 MiB (*time 0.8 MiB*h) (started with 161.1 MiB)
+Load end is                             : 0.07 0.04 0.01 2/180 on 4 cores
+CPU time and %cpu                       : 0.94 sec 5.8 %cpu 1.4 %allcpus
+Biggest message transferred             : 0 bytes (0.000 KiB)
+Memory/biggest message ratio            : NA
+The sync is strict, all 0 identified messages in host2 are on host1.
+Detected 8 errors
+Check if a new imapsync release is available by adding --releasecheck
+Homepage: https://imapsync.lamiral.info/
+++++ Listing 8 errors encountered during the sync ( avoid this listing with --noerrorsdump ).
+Err 1/8: Host1 folder INBOX: Could not select: 19 NO [SERVERBUG] Internal error occurred. Refer to server log for more information. [2026-07-22 09:33:00] (0.001 + 0.000 + 0.001 secs).
+Err 2/8: Host2 folder INBOX: Could not select: 14 NO [SERVERBUG] Internal error occurred. Refer to server log for more information. [2026-07-22 09:33:00] (0.001 + 0.000 secs).
+Err 3/8: Host1 folder INBOX: Could not select: 20 NO [SERVERBUG] Internal error occurred. Refer to server log for more information. [2026-07-22 09:33:01] (0.001 + 0.000 secs).
+Err 4/8: Host1 folder INBOX.Archive: Could not select: 21 NO [SERVERBUG] Internal error occurred. Refer to server log for more information. [2026-07-22 09:33:01] (0.336 + 0.000 + 0.335 secs).
+Err 5/8: Host1 folder INBOX.Drafts: Could not select: 22 NO [SERVERBUG] Internal error occurred. Refer to server log for more information. [2026-07-22 09:33:01] (0.039 + 0.000 + 0.038 secs).
+Err 6/8: Host1 folder INBOX.Sent: Could not select: 23 NO [SERVERBUG] Internal error occurred. Refer to server log for more information. [2026-07-22 09:33:02] (0.002 + 0.000 + 0.001 secs).
+Err 7/8: Host1 folder INBOX.Trash: Could not select: 24 NO [SERVERBUG] Internal error occurred. Refer to server log for more information. [2026-07-22 09:33:02] (0.001 + 0.000 secs).
+Err 8/8: Host1 folder INBOX.spam: Could not select: 25 NO [SERVERBUG] Internal error occurred. Refer to server log for more information. [2026-07-22 09:33:02] (0.001 + 0.000 secs).
+The most frequent error is ERR_SELECT. 
+Exiting with return value 117 (EXIT_ERR_SELECT) 8/50 nb_errors/max_errors PID 1774
+Log file is LOG_imapsync/2026_07_22_09_32_45_582_diretor@ciscai.com.br_diretor@ciscai.com.br.txt ( to change it, use --logfile filepath ; or use --nolog to turn off logging )

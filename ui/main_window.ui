@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1280</width>
+    <height>820</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>IMAPSync Manager — Plenus Suporte</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="mainVerticalLayout">
+    <property name="spacing"><number>10</number></property>
+    <property name="leftMargin"><number>12</number></property>
+    <property name="topMargin"><number>12</number></property>
+    <property name="rightMargin"><number>12</number></property>
+    <property name="bottomMargin"><number>12</number></property>
+
+    <!-- ================= Servidores ================= -->
+    <item>
+     <widget class="QGroupBox" name="groupServers">
+      <property name="title"><string>Servidores</string></property>
+      <layout class="QHBoxLayout" name="serversLayout">
+
+       <item>
+        <layout class="QVBoxLayout" name="originLayout">
+         <item>
+          <widget class="QLabel" name="labelOrigin">
+           <property name="text"><string>Servidor Origem</string></property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="comboOrigin">
+           <property name="minimumWidth"><number>260</number></property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+
+       <item>
+        <widget class="QLabel" name="labelArrow">
+         <property name="text"><string>➜</string></property>
+         <property name="alignment"><set>Qt::AlignmentFlag::AlignCenter</set></property>
+         <property name="minimumWidth"><number>30</number></property>
+        </widget>
+       </item>
+
+       <item>
+        <layout class="QVBoxLayout" name="destLayout">
+         <item>
+          <widget class="QLabel" name="labelDest">
+           <property name="text"><string>Servidor Destino</string></property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="comboDest">
+           <property name="minimumWidth"><number>260</number></property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+
+       <item>
+        <spacer name="serversSpacer">
+         <property name="orientation"><enum>Qt::Orientation::Horizontal</enum></property>
+         <property name="sizeHint"><size><width>40</width><height>20</height></size></property>
+        </spacer>
+       </item>
+
+       <item>
+        <widget class="QPushButton" name="btnManageProfiles">
+         <property name="text"><string>Gerenciar Perfis</string></property>
+        </widget>
+       </item>
+
+       <item>
+        <widget class="QPushButton" name="btnTestConnections">
+         <property name="text"><string>Testar Conexões</string></property>
+        </widget>
+       </item>
+
+      </layout>
+     </widget>
+    </item>
+
+    <!-- ================= Operador ================= -->
+    <item>
+     <layout class="QHBoxLayout" name="operatorLayout">
+      <item>
+       <widget class="QLabel" name="labelOperador">
+        <property name="text"><string>Operador responsável:</string></property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="editOperador">
+        <property name="placeholderText"><string>Seu nome (aparecerá no log de cada migração)</string></property>
+        <property name="minimumWidth"><number>260</number></property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="operatorSpacer">
+        <property name="orientation"><enum>Qt::Orientation::Horizontal</enum></property>
+        <property name="sizeHint"><size><width>40</width><height>20</height></size></property>
+       </spacer>
+      </item>
+     </layout>
+    </item>
+
+    <!-- ================= Opções de execução ================= -->
+    <item>
+     <widget class="QGroupBox" name="groupOptions">
+      <property name="title"><string>Opções de Execução</string></property>
+      <layout class="QVBoxLayout" name="optionsOuterLayout">
+
+       <item>
+        <layout class="QHBoxLayout" name="optionsRow1">
+         <item>
+          <widget class="QCheckBox" name="checkShowPasswords">
+           <property name="text"><string>Mostrar senhas na listagem</string></property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkAutoRetry">
+           <property name="text"><string>Reconectar automaticamente em caso de queda (a cada 5 min)</string></property>
+           <property name="checked"><bool>true</bool></property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="optionsRow1Spacer">
+           <property name="orientation"><enum>Qt::Orientation::Horizontal</enum></property>
+           <property name="sizeHint"><size><width>40</width><height>20</height></size></property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+
+       <item>
+        <layout class="QHBoxLayout" name="optionsRow2">
+         <item>
+          <widget class="QCheckBox" name="checkSchedule">
+           <property name="text"><string>Agendar início para:</string></property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QDateTimeEdit" name="dateTimeSchedule">
+           <property name="enabled"><bool>false</bool></property>
+           <property name="calendarPopup"><bool>true</bool></property>
+           <property name="displayFormat"><string>dd/MM/yyyy HH:mm</string></property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="labelScheduleStatus">
+           <property name="text"><string></string></property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="optionsRow2Spacer">
+           <property name="orientation"><enum>Qt::Orientation::Horizontal</enum></property>
+           <property name="sizeHint"><size><width>40</width><height>20</height></size></property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkShutdownAfter">
+           <property name="text"><string>Desligar o computador ao final da migração</string></property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+
+      </layout>
+     </widget>
+    </item>
+
+    <!-- ================= Ações sobre contas ================= -->
+    <item>
+     <layout class="QHBoxLayout" name="accountActionsLayout">
+      <item>
+       <widget class="QPushButton" name="btnImportCsv">
+        <property name="text"><string>Importar CSV</string></property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnAddAccount">
+        <property name="text"><string>Adicionar Conta</string></property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnRemoveAccount">
+        <property name="text"><string>Remover Selecionadas</string></property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="accountActionsSpacer">
+        <property name="orientation"><enum>Qt::Orientation::Horizontal</enum></property>
+        <property name="sizeHint"><size><width>40</width><height>20</height></size></property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QLabel" name="labelAccountCount">
+        <property name="text"><string>0 contas</string></property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+
+    <!-- ================= Splitter: Tabela + Logs ================= -->
+    <item>
+     <widget class="QSplitter" name="splitterMain">
+      <property name="orientation"><enum>Qt::Orientation::Vertical</enum></property>
+
+      <widget class="QTableWidget" name="tableAccounts">
+       <property name="columnCount"><number>8</number></property>
+       <property name="selectionBehavior"><enum>QAbstractItemView::SelectionBehavior::SelectRows</enum></property>
+       <property name="editTriggers"><set>QAbstractItemView::EditTrigger::NoEditTriggers</set></property>
+       <property name="alternatingRowColors"><bool>true</bool></property>
+       <column><property name="text"><string>Email</string></property></column>
+       <column><property name="text"><string>Senha Origem</string></property></column>
+       <column><property name="text"><string>Senha Destino</string></property></column>
+       <column><property name="text"><string>Status</string></property></column>
+       <column><property name="text"><string>Progresso</string></property></column>
+       <column><property name="text"><string>Tempo</string></property></column>
+       <column><property name="text"><string>Velocidade</string></property></column>
+       <column><property name="text"><string>Motivo</string></property></column>
+      </widget>
+
+      <widget class="QTabWidget" name="tabLogs">
+       <property name="tabPosition"><enum>QTabWidget::TabPosition::North</enum></property>
+       <widget class="QWidget" name="tabGeneralLog">
+        <attribute name="title"><string>Log Geral</string></attribute>
+        <layout class="QVBoxLayout" name="generalLogLayout">
+         <item>
+          <widget class="QPlainTextEdit" name="textGeneralLog">
+           <property name="readOnly"><bool>true</bool></property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tabAccountLog">
+        <attribute name="title"><string>Log da Conta Selecionada</string></attribute>
+        <layout class="QVBoxLayout" name="accountLogLayout">
+         <item>
+          <widget class="QPlainTextEdit" name="textAccountLog">
+           <property name="readOnly"><bool>true</bool></property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+
+     </widget>
+    </item>
+
+    <!-- ================= Progresso geral ================= -->
+    <item>
+     <layout class="QHBoxLayout" name="progressLayout">
+      <item>
+       <widget class="QLabel" name="labelProgress">
+        <property name="text"><string>Progresso geral:</string></property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QProgressBar" name="progressGeneral">
+        <property name="value"><number>0</number></property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+
+    <!-- ================= Controles de execução ================= -->
+    <item>
+     <layout class="QHBoxLayout" name="controlsLayout">
+      <item>
+       <widget class="QPushButton" name="btnStart">
+        <property name="text"><string>▶ Iniciar</string></property>
+        <property name="minimumHeight"><number>36</number></property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnPause">
+        <property name="text"><string>⏸ Pausar</string></property>
+        <property name="minimumHeight"><number>36</number></property>
+        <property name="enabled"><bool>false</bool></property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnCancel">
+        <property name="text"><string>⏹ Cancelar</string></property>
+        <property name="minimumHeight"><number>36</number></property>
+        <property name="enabled"><bool>false</bool></property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="controlsSpacer">
+        <property name="orientation"><enum>Qt::Orientation::Horizontal</enum></property>
+        <property name="sizeHint"><size><width>40</width><height>20</height></size></property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnExportLogs">
+        <property name="text"><string>Exportar Logs</string></property>
+        <property name="minimumHeight"><number>36</number></property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+
+   </layout>
+  </widget>
+
+  <!-- ================= Menu ================= -->
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry"><rect><x>0</x><y>0</y><width>1280</width><height>26</height></rect></property>
+   <widget class="QMenu" name="menuArquivo">
+    <property name="title"><string>Arquivo</string></property>
+    <addaction name="actionImportarCsv"/>
+    <addaction name="actionExportarLogs"/>
+    <addaction name="separator"/>
+    <addaction name="actionSair"/>
+   </widget>
+   <widget class="QMenu" name="menuPerfis">
+    <property name="title"><string>Perfis</string></property>
+    <addaction name="actionGerenciarPerfis"/>
+    <addaction name="actionTestarConexoes"/>
+   </widget>
+   <widget class="QMenu" name="menuConfiguracoes">
+    <property name="title"><string>Configurações</string></property>
+    <addaction name="actionParametrosImapsync"/>
+   </widget>
+   <widget class="QMenu" name="menuAjuda">
+    <property name="title"><string>Ajuda</string></property>
+    <addaction name="actionSobre"/>
+   </widget>
+   <addaction name="menuArquivo"/>
+   <addaction name="menuPerfis"/>
+   <addaction name="menuConfiguracoes"/>
+   <addaction name="menuAjuda"/>
+  </widget>
+
+  <widget class="QStatusBar" name="statusbar"/>
+
+  <action name="actionImportarCsv"><property name="text"><string>Importar CSV...</string></property></action>
+  <action name="actionExportarLogs"><property name="text"><string>Exportar Logs...</string></property></action>
+  <action name="actionSair"><property name="text"><string>Sair</string></property></action>
+  <action name="actionGerenciarPerfis"><property name="text"><string>Gerenciar Perfis...</string></property></action>
+  <action name="actionTestarConexoes"><property name="text"><string>Testar Conexões</string></property></action>
+  <action name="actionParametrosImapsync"><property name="text"><string>Parâmetros do imapsync...</string></property></action>
+  <action name="actionSobre"><property name="text"><string>Sobre</string></property></action>
+
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

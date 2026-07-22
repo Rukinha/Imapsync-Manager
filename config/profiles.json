@@ -1,0 +1,38 @@
+[
+  {
+    "id": "62f18092-8334-4c4f-9f5a-fbc448ef5d33",
+    "nome": "Baoba",
+    "host": "162.215.12.12",
+    "porta": 143,
+    "ssl": false,
+    "auth_type": "LOGIN",
+    "timeout": 60,
+    "prefixo_imap": "",
+    "observacoes": "",
+    "cor": "#00557f"
+  },
+  {
+    "id": "6bab6375-15d6-45f7-8cc8-ebe4772d0212",
+    "nome": "Getcard",
+    "host": "177.72.161.168",
+    "porta": 143,
+    "ssl": false,
+    "auth_type": "LOGIN",
+    "timeout": 60,
+    "prefixo_imap": "",
+    "observacoes": "",
+    "cor": "#ff5500"
+  },
+  {
+    "id": "22b2de5c-bcea-4fbe-a023-dd22556361e1",
+    "nome": "Carnauba",
+    "host": "162.215.218.43",
+    "porta": 143,
+    "ssl": false,
+    "auth_type": "LOGIN",
+    "timeout": 60,
+    "prefixo_imap": "",
+    "observacoes": "",
+    "cor": "#3498db"
+  }
+]

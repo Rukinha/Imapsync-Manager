@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ProfileDialog</class>
+ <widget class="QDialog" name="ProfileDialog">
+  <property name="geometry"><rect><x>0</x><y>0</y><width>460</width><height>560</height></rect></property>
+  <property name="windowTitle"><string>Perfil de Servidor IMAP</string></property>
+  <layout class="QVBoxLayout" name="rootLayout">
+
+   <item>
+    <layout class="QFormLayout" name="formLayout">
+
+     <item row="0" column="0"><widget class="QLabel" name="labelNome"><property name="text"><string>Nome</string></property></widget></item>
+     <item row="0" column="1"><widget class="QLineEdit" name="editNome"/></item>
+
+     <item row="1" column="0"><widget class="QLabel" name="labelHost"><property name="text"><string>Host</string></property></widget></item>
+     <item row="1" column="1"><widget class="QLineEdit" name="editHost"><property name="placeholderText"><string>imap.exemplo.com</string></property></widget></item>
+
+     <item row="2" column="0"><widget class="QLabel" name="labelPorta"><property name="text"><string>Porta</string></property></widget></item>
+     <item row="2" column="1">
+      <widget class="QSpinBox" name="spinPorta">
+       <property name="minimum"><number>1</number></property>
+       <property name="maximum"><number>65535</number></property>
+       <property name="value"><number>993</number></property>
+      </widget>
+     </item>
+
+     <item row="3" column="0"><widget class="QLabel" name="labelSsl"><property name="text"><string>SSL</string></property></widget></item>
+     <item row="3" column="1"><widget class="QCheckBox" name="checkSsl"><property name="checked"><bool>true</bool></property><property name="text"><string>Usar conexão SSL/TLS</string></property></widget></item>
+
+     <item row="4" column="0"><widget class="QLabel" name="labelAuth"><property name="text"><string>Tipo de autenticação</string></property></widget></item>
+     <item row="4" column="1">
+      <widget class="QComboBox" name="comboAuthType">
+       <item><property name="text"><string>LOGIN</string></property></item>
+       <item><property name="text"><string>PLAIN</string></property></item>
+       <item><property name="text"><string>CRAM-MD5</string></property></item>
+       <item><property name="text"><string>OAUTH2</string></property></item>
+       <item><property name="text"><string>XOAUTH2</string></property></item>
+      </widget>
+     </item>
+
+     <item row="5" column="0"><widget class="QLabel" name="labelTimeout"><property name="text"><string>Timeout (s)</string></property></widget></item>
+     <item row="5" column="1">
+      <widget class="QSpinBox" name="spinTimeout">
+       <property name="minimum"><number>5</number></property>
+       <property name="maximum"><number>600</number></property>
+       <property name="value"><number>60</number></property>
+      </widget>
+     </item>
+
+     <item row="6" column="0"><widget class="QLabel" name="labelPrefix"><property name="text"><string>Prefixo IMAP</string></property></widget></item>
+     <item row="6" column="1"><widget class="QLineEdit" name="editPrefix"><property name="placeholderText"><string>Ex.: INBOX.</string></property></widget></item>
+
+     <item row="7" column="0"><widget class="QLabel" name="labelColor"><property name="text"><string>Cor do perfil</string></property></widget></item>
+     <item row="7" column="1">
+      <layout class="QHBoxLayout" name="colorLayout">
+       <item><widget class="QPushButton" name="btnPickColor"><property name="text"><string>Escolher cor...</string></property></widget></item>
+       <item><widget class="QFrame" name="frameColorPreview"><property name="minimumSize"><size><width>28</width><height>28</height></size></property><property name="frameShape"><enum>QFrame::Shape::Box</enum></property></widget></item>
+      </layout>
+     </item>
+
+     <item row="8" column="0"><widget class="QLabel" name="labelObs"><property name="text"><string>Observações</string></property></widget></item>
+     <item row="8" column="1"><widget class="QPlainTextEdit" name="editObs"><property name="maximumHeight"><number>80</number></property></widget></item>
+
+    </layout>
+   </item>
+
+   <item>
+    <widget class="QFrame" name="lineSeparator">
+     <property name="frameShape"><enum>QFrame::Shape::HLine</enum></property>
+    </widget>
+   </item>
+
+   <item>
+    <layout class="QHBoxLayout" name="testLayout">
+     <item><widget class="QPushButton" name="btnTestConnection"><property name="text"><string>Testar Conexão</string></property></widget></item>
+     <item><widget class="QLabel" name="labelTestResult"><property name="text"><string></string></property></widget></item>
+     <item>
+      <spacer name="testSpacer">
+       <property name="orientation"><enum>Qt::Orientation::Horizontal</enum></property>
+       <property name="sizeHint"><size><width>40</width><height>20</height></size></property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="standardButtons"><set>QDialogButtonBox::StandardButton::Cancel|QDialogButtonBox::StandardButton::Save</set></property>
+    </widget>
+   </item>
+
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
