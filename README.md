@@ -122,3 +122,4 @@ editáveis pela equipe sem mexer em código.
 - Progresso geral ponderado por bytes/mensagens reais, não só por contas concluídas.
 - Retomar migrações após fechar/abrir o programa (persistir fila + status).
 - Empacotamento com PyInstaller para distribuição interna.
+# Imapsync-Manager
