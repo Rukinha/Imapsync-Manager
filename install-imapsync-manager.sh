@@ -1,6 +1,6 @@
 #!/bin/bash
 # ==============================================================================
-# Instalação do Imapsync Manager para WSL / Ubuntu
+# Instalação do Imapsync Manager para WSL / Ubuntu 24.04+
 # Execução: ./install-imapsync-manager.sh
 # ==============================================================================
 
@@ -19,11 +19,16 @@ echo -e "${CYAN}====================================================${NC}"
 echo -e "${CYAN}     Instalador do Imapsync Manager (Linux/WSL)     ${NC}"
 echo -e "${CYAN}====================================================${NC}"
 
-# 1. Dependências do sistema (incluindo pacotes para PyQt6 no Linux/WSLg)
-echo -e "\n${YELLOW}[1/4] Verificando e instalando dependências do sistema (apt)...${NC}"
+# 1. Habilitar repositórios do Ubuntu e instalar dependências do sistema
+echo -e "\n${YELLOW}[1/4] Habilitando repositórios e instalando dependências...${NC}"
 sudo apt update
+sudo apt install -y software-properties-common
+sudo add-apt-repository -y universe
+sudo apt update
+
+# Instalação dos pacotes com os nomes atualizados
 sudo apt install -y git python3 python3-venv python3-pip imapsync desktop-file-utils \
-                    libgl1-mesa-glx libegl1-mesa libxkbcommon-x11-0 libdbus-1-3 libxcb-cursor0
+                    libgl1 libegl1 libxkbcommon-x11-0 libdbus-1-3 libxcb-cursor0
 
 # 2. Clonar ou Atualizar o Repositório do Git
 echo -e "\n${YELLOW}[2/4] Baixando repositório do Git...${NC}"
@@ -57,7 +62,7 @@ else
     ./venv/bin/pip install "PyQt6>=6.6.0"
 fi
 
-# Voltar para o diretório raiz onde o script foi chamado
+# Voltar para o diretório raiz
 cd ..
 
 echo -e "\n${GREEN}====================================================${NC}"
