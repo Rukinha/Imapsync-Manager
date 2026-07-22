@@ -1,0 +1,4 @@
+
+# Logs gerados pela aplicação
+logs/*.log
+LOG_imapsync/*.txt
