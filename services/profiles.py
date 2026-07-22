@@ -59,3 +59,8 @@ class ProfileManager:
     def remove(self, profile_id: str) -> None:
         self._profiles = [p for p in self._profiles if p.id != profile_id]
         self.save()
+
+    def export_to(self, destination: Path) -> None:
+        """Exporta os perfis em formato JSON, incluindo todos os campos configurados."""
+        with open(destination, "w", encoding="utf-8") as f:
+            json.dump([p.to_dict() for p in self._profiles], f, indent=2, ensure_ascii=False)

@@ -153,7 +153,7 @@ class MigrationManager(QObject):
             self.account_log.emit(
                 conta.email,
                 f"Falha de conexão detectada ({motivo}). "
-                f"Nova tentativa automática em 5 minutos "
+                f"Nova tentativa automática {self._descricao_intervalo_retry()} "
                 f"(tentativa {conta.tentativas}/{self.max_tentativas})."
             )
             QTimer.singleShot(self.retry_delay_ms, lambda c=conta: self._reencaminhar_para_fila(c))
@@ -171,6 +171,15 @@ class MigrationManager(QObject):
         self.account_status_changed.emit(conta.email, conta.status.value)
         self._fila.append(conta)
         self._preencher_slots()
+
+    def _descricao_intervalo_retry(self) -> str:
+        segundos = max(0, self.retry_delay_ms // 1000)
+        if segundos == 0:
+            return "imediatamente"
+        if segundos < 60:
+            return f"em {segundos} segundos"
+        minutos = segundos // 60
+        return f"em {minutos} minuto{'s' if minutos != 1 else ''}"
 
     def _continuar_apos_conta(self, conta: Account) -> None:
         self._emitir_progresso_geral()

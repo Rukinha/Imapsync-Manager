@@ -1,76 +1,77 @@
-#!/bin/bash
-# ==============================================================================
-# Instalação do Imapsync Manager para WSL / Ubuntu 24.04+
-# Execução: ./install-imapsync-manager.sh
-# ==============================================================================
-
-set -e
-
-GREEN='\033[0;32m'
-CYAN='\033[0;36m'
-YELLOW='\033[1;33m'
-RED='\033[0;31m'
-NC='\033[0m' # No Color
+#!/usr/bin/env bash
+# Instala o IMAPSync Manager em Ubuntu ou Ubuntu no WSL.
+# Uso: curl -fsSL https://raw.githubusercontent.com/Rukinha/Imapsync-Manager/main/install-imapsync-manager.sh | bash
+set -Eeuo pipefail
 
 REPO_URL="https://github.com/Rukinha/Imapsync-Manager.git"
-TARGET_DIR="Imapsync-Manager"
+INSTALL_DIR="${IMAPSYNC_MANAGER_DIR:-$HOME/imapsync-manager}"
+VENV_DIR="$INSTALL_DIR/.venv"
+LAUNCHER="$HOME/.local/bin/imapsync-manager"
 
-echo -e "${CYAN}====================================================${NC}"
-echo -e "${CYAN}     Instalador do Imapsync Manager (Linux/WSL)     ${NC}"
-echo -e "${CYAN}====================================================${NC}"
+info() { printf '\n\033[1;36m%s\033[0m\n' "$1"; }
+ok() { printf '\033[0;32m✓ %s\033[0m\n' "$1"; }
+warn() { printf '\033[1;33mAviso: %s\033[0m\n' "$1"; }
+fail() { printf '\033[0;31mErro: %s\033[0m\n' "$1" >&2; exit 1; }
 
-# 1. Habilitar repositórios do Ubuntu e instalar dependências do sistema
-echo -e "\n${YELLOW}[1/4] Habilitando repositórios e instalando dependências...${NC}"
-sudo apt update
-sudo apt install -y software-properties-common
-sudo add-apt-repository -y universe
-sudo apt update
+command -v apt-get >/dev/null || fail "Este instalador é destinado ao Ubuntu/Debian (apt)."
+command -v sudo >/dev/null || fail "O comando sudo é necessário para instalar os pacotes do sistema."
 
-# Instalação dos pacotes com os nomes atualizados
-sudo apt install -y git python3 python3-venv python3-pip imapsync desktop-file-utils \
-                    libgl1 libegl1 libxkbcommon-x11-0 libdbus-1-3 libxcb-cursor0
+info "[1/4] Instalando dependências do sistema"
+if ! timeout 90 sudo apt-get update; then
+  warn "Não foi possível atualizar os repositórios em 90 segundos. Tentando instalar com o cache local do apt."
+fi
+sudo apt-get install -y git python3 python3-venv python3-pip imapsync \
+  libgl1 libegl1 libxkbcommon-x11-0 libdbus-1-3 libxcb-cursor0 desktop-file-utils
+ok "Python, imapsync e bibliotecas gráficas instalados"
 
-# 2. Clonar ou Atualizar o Repositório do Git
-echo -e "\n${YELLOW}[2/4] Baixando repositório do Git...${NC}"
-
-if [ -d "$TARGET_DIR/.git" ]; then
-    echo -e "${CYAN}A pasta '$TARGET_DIR' já existe. Atualizando código via git pull...${NC}"
-    cd "$TARGET_DIR"
-    git pull origin main || git pull origin master
+info "[2/4] Baixando ou atualizando o aplicativo"
+if [[ -d "$INSTALL_DIR/.git" ]]; then
+  git -C "$INSTALL_DIR" fetch --all --prune
+  git -C "$INSTALL_DIR" pull --ff-only origin main || git -C "$INSTALL_DIR" pull --ff-only origin master
+elif [[ -e "$INSTALL_DIR" ]]; then
+  fail "A pasta '$INSTALL_DIR' já existe e não é uma instalação Git. Mova-a ou escolha outra pasta com IMAPSYNC_MANAGER_DIR."
 else
-    echo -e "${CYAN}Clonando repositório em ./$TARGET_DIR ...${NC}"
-    git clone "$REPO_URL" "$TARGET_DIR"
-    cd "$TARGET_DIR"
+  git clone "$REPO_URL" "$INSTALL_DIR"
+fi
+ok "Código disponível em $INSTALL_DIR"
+
+info "[3/4] Preparando ambiente Python"
+if [[ -d "$VENV_DIR" && ! -x "$VENV_DIR/bin/python" ]]; then
+  warn "Ambiente virtual existente não é compatível com Linux. Recriando-o."
+  rm -rf "$VENV_DIR"
+fi
+if [[ ! -d "$VENV_DIR" ]]; then
+  python3 -m venv "$VENV_DIR"
+fi
+"$VENV_DIR/bin/python" -m pip install --upgrade pip
+"$VENV_DIR/bin/python" -m pip install -r "$INSTALL_DIR/requirements.txt"
+ok "Dependências Python instaladas"
+
+info "[4/4] Criando comando de execução"
+mkdir -p "$(dirname "$LAUNCHER")"
+cat > "$LAUNCHER" <<EOF
+#!/usr/bin/env bash
+exec "$VENV_DIR/bin/python" "$INSTALL_DIR/main.py" "\$@"
+EOF
+chmod +x "$LAUNCHER"
+
+if [[ -n "${DISPLAY:-}${WAYLAND_DISPLAY:-}" ]]; then
+  mkdir -p "$HOME/.local/share/applications"
+  cat > "$HOME/.local/share/applications/imapsync-manager.desktop" <<EOF
+[Desktop Entry]
+Type=Application
+Name=IMAPSync Manager
+Comment=Gerenciador de migrações de e-mail com imapsync
+Exec=$LAUNCHER
+Terminal=false
+Categories=Network;Utility;
+EOF
+  update-desktop-database "$HOME/.local/share/applications" 2>/dev/null || true
+  ok "Atalho de menu criado"
 fi
 
-# 3. Configurar ambiente virtual Python (venv)
-echo -e "\n${YELLOW}[3/4] Criando e configurando ambiente virtual Python (venv)...${NC}"
-if [ ! -d "venv" ]; then
-    python3 -m venv venv
-fi
-
-# Atualiza o pip dentro do ambiente virtual
-./venv/bin/pip install --upgrade pip
-
-# 4. Instalar dependências Python
-echo -e "\n${YELLOW}[4/4] Instalando dependências do Python...${NC}"
-if [ -f "requirements.txt" ]; then
-    echo -e "${CYAN}Instalando pacotes listados no requirements.txt...${NC}"
-    ./venv/bin/pip install -r requirements.txt
-else
-    echo -e "${CYAN}requirements.txt não encontrado. Instalando PyQt6>=6.6.0 por padrão...${NC}"
-    ./venv/bin/pip install "PyQt6>=6.6.0"
-fi
-
-# Voltar para o diretório raiz
-cd ..
-
-echo -e "\n${GREEN}====================================================${NC}"
-echo -e "${GREEN}      ✅ Instalação Concluída com Sucesso!          ${NC}"
-echo -e "${GREEN}====================================================${NC}"
-echo -e "\nPara executar a aplicação, rode os comandos abaixo:\n"
-echo -e "  ${CYAN}cd Imapsync-Manager${NC}"
-echo -e "  ${CYAN}source venv/bin/activate${NC}"
-echo -e "  ${CYAN}python3 main.py${NC}"
-echo -e "\nOu em uma única linha:"
-echo -e "  ${CYAN}cd Imapsync-Manager && source venv/bin/activate && python3 main.py${NC}\n"
+printf '\n\033[1;32mInstalação concluída.\033[0m\n'
+printf 'Execute com: \033[1;36m%s\033[0m\n' "$LAUNCHER"
+printf 'Se ~/.local/bin estiver no PATH, basta usar: \033[1;36mimapsync-manager\033[0m\n'
+printf 'Alternativa dentro da pasta do projeto: \033[1;36mbash ./run-imapsync-manager.sh\033[0m\n'
+printf 'Em WSL, use uma distribuição com interface gráfica (WSLg ou servidor X) para abrir a janela.\n'
