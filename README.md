@@ -123,3 +123,26 @@ editáveis pela equipe sem mexer em código.
 - Retomar migrações após fechar/abrir o programa (persistir fila + status).
 - Empacotamento com PyInstaller para distribuição interna.
 # Imapsync-Manager
+
+## Instalacao rapida no Ubuntu / WSL
+
+No Ubuntu ou em uma distribuicao Ubuntu no WSL, o instalador baixa o projeto do GitHub, instala Python, `imapsync` e as dependencias graficas, cria o ambiente virtual e deixa um comando de execucao pronto:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Rukinha/Imapsync-Manager/main/install-imapsync-manager.sh | bash
+```
+
+Ao final, abra pelo menu de aplicativos ou execute:
+
+```bash
+~/.local/bin/imapsync-manager
+```
+
+Para atualizar uma instalacao, rode novamente o mesmo comando. O instalador atualiza o repositorio sem apagar `config/profiles.json` e as preferencias locais. Em WSL e necessario usar WSLg (Windows 11) ou um servidor grafico compativel para que a janela PyQt seja exibida.
+
+### Recursos de acompanhamento
+
+- A aba **Erros** reune somente falhas, mostra a quantidade total e permite filtrar por conta ou copiar o resultado para encaminhar ao suporte.
+- Eventos de erro no **Log Geral** sao marcados com `ERRO`; a linha da conta permanece destacada em vermelho e exibe o motivo resumido.
+- A nova tentativa automatica pode ocorrer imediatamente, em 30 segundos, 1, 5 ou 15 minutos. A escolha e salva para a proxima sessao.
+- Em **Arquivo > Exportar Perfis de Servidor...**, salve os perfis em JSON para transferi-los a outro computador. Esse arquivo contem dados de conexao dos servidores; armazene-o de forma segura.

@@ -125,9 +125,21 @@
           </widget>
          </item>
          <item>
-          <widget class="QCheckBox" name="checkAutoRetry">
-           <property name="text"><string>Reconectar automaticamente em caso de queda (a cada 5 min)</string></property>
+         <widget class="QCheckBox" name="checkAutoRetry">
+           <property name="text"><string>Tentar novamente em caso de erro de conexão</string></property>
            <property name="checked"><bool>true</bool></property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="labelRetryDelay"><property name="text"><string>Intervalo:</string></property></widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="comboRetryDelay">
+           <item><property name="text"><string>Tentar imediatamente</string></property><property name="userData" stdset="0"><number>0</number></property></item>
+           <item><property name="text"><string>Após 30 segundos</string></property><property name="userData" stdset="0"><number>30</number></property></item>
+           <item><property name="text"><string>Após 1 minuto</string></property><property name="userData" stdset="0"><number>60</number></property></item>
+           <item><property name="text"><string>Após 5 minutos</string></property><property name="userData" stdset="0"><number>300</number></property></item>
+           <item><property name="text"><string>Após 15 minutos</string></property><property name="userData" stdset="0"><number>900</number></property></item>
           </widget>
          </item>
          <item>
@@ -250,6 +262,18 @@
          </item>
         </layout>
        </widget>
+       <widget class="QWidget" name="tabErrorLog">
+        <attribute name="title"><string>Erros (0)</string></attribute>
+        <layout class="QVBoxLayout" name="errorLogLayout">
+         <item><layout class="QHBoxLayout" name="errorFilterLayout">
+          <item><widget class="QLabel" name="labelErrorFilter"><property name="text"><string>Exibir erros de:</string></property></widget></item>
+          <item><widget class="QComboBox" name="comboErrorAccount"><property name="minimumWidth"><number>280</number></property></widget></item>
+          <item><widget class="QPushButton" name="btnCopyErrors"><property name="text"><string>Copiar erros</string></property></widget></item>
+          <item><spacer name="errorFilterSpacer"><property name="orientation"><enum>Qt::Orientation::Horizontal</enum></property></spacer></item>
+         </layout></item>
+         <item><widget class="QPlainTextEdit" name="textErrorLog"><property name="readOnly"><bool>true</bool></property><property name="placeholderText"><string>Nenhum erro registrado nesta sessão.</string></property></widget></item>
+        </layout>
+       </widget>
       </widget>
 
      </widget>
@@ -319,6 +343,7 @@
     <property name="title"><string>Arquivo</string></property>
     <addaction name="actionImportarCsv"/>
     <addaction name="actionExportarLogs"/>
+    <addaction name="actionExportarPerfis"/>
     <addaction name="separator"/>
     <addaction name="actionSair"/>
    </widget>
@@ -345,6 +370,7 @@
 
   <action name="actionImportarCsv"><property name="text"><string>Importar CSV...</string></property></action>
   <action name="actionExportarLogs"><property name="text"><string>Exportar Logs...</string></property></action>
+  <action name="actionExportarPerfis"><property name="text"><string>Exportar Perfis de Servidor...</string></property></action>
   <action name="actionSair"><property name="text"><string>Sair</string></property></action>
   <action name="actionGerenciarPerfis"><property name="text"><string>Gerenciar Perfis...</string></property></action>
   <action name="actionTestarConexoes"><property name="text"><string>Testar Conexões</string></property></action>

@@ -17,6 +17,7 @@ _PADRAO = {
     "operador": "",
     "mostrar_senhas": False,
     "auto_retry": True,
+    "retry_delay_seconds": 300,
     "desligar_ao_fim": False,
 }
 

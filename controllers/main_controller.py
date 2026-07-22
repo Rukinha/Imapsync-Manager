@@ -7,7 +7,7 @@ from datetime import datetime
 from pathlib import Path
 
 from PyQt6 import uic
-from PyQt6.QtWidgets import QMainWindow, QFileDialog, QMessageBox, QTableWidgetItem
+from PyQt6.QtWidgets import QApplication, QMainWindow, QFileDialog, QMessageBox, QTableWidgetItem
 from PyQt6.QtCore import QDateTime, QTimer, Qt
 from PyQt6.QtGui import QColor
 
@@ -42,6 +42,7 @@ class MainWindow(QMainWindow):
         self.migration_manager = MigrationManager(max_parallel=4)
         self.accounts: list[Account] = []
         self.extra_flags: list[str] = list(DEFAULT_FLAGS)
+        self._erros: list[tuple[str, str, str]] = []
 
         self._timer_agendamento: QTimer | None = None
 
@@ -52,6 +53,7 @@ class MainWindow(QMainWindow):
         self._conectar_sinais_ui()
         self._conectar_sinais_migration_manager()
         self._atualizar_contador_contas()
+        self._atualizar_filtro_erros()
 
     # ------------------------------------------------------------------
     # Setup
@@ -69,8 +71,14 @@ class MainWindow(QMainWindow):
         self.checkShowPasswords.setChecked(bool(self.settings.get("mostrar_senhas", False)))
         self.checkAutoRetry.setChecked(bool(self.settings.get("auto_retry", True)))
         self.checkShutdownAfter.setChecked(bool(self.settings.get("desligar_ao_fim", False)))
+        segundos_retry = int(self.settings.get("retry_delay_seconds", 300))
+        indice_retry = self.comboRetryDelay.findData(segundos_retry)
+        self.comboRetryDelay.setCurrentIndex(indice_retry if indice_retry >= 0 else 3)
         self.dateTimeSchedule.setDateTime(QDateTime.currentDateTime().addSecs(3600))
         self.migration_manager.auto_retry = self.checkAutoRetry.isChecked()
+        self.migration_manager.retry_delay_ms = int(self.comboRetryDelay.currentData()) * 1000
+        self.comboRetryDelay.setEnabled(self.checkAutoRetry.isChecked())
+        self.labelRetryDelay.setEnabled(self.checkAutoRetry.isChecked())
 
     def _conectar_sinais_ui(self) -> None:
         self.btnManageProfiles.clicked.connect(self._abrir_gerenciar_perfis)
@@ -91,6 +99,7 @@ class MainWindow(QMainWindow):
 
         self.btnExportLogs.clicked.connect(self._exportar_logs)
         self.actionExportarLogs.triggered.connect(self._exportar_logs)
+        self.actionExportarPerfis.triggered.connect(self._exportar_perfis)
 
         self.actionSair.triggered.connect(self.close)
 
@@ -98,7 +107,10 @@ class MainWindow(QMainWindow):
 
         self.checkShowPasswords.toggled.connect(self._on_toggle_show_passwords)
         self.checkAutoRetry.toggled.connect(self._on_toggle_auto_retry)
+        self.comboRetryDelay.currentIndexChanged.connect(self._on_retry_delay_changed)
         self.checkSchedule.toggled.connect(self.dateTimeSchedule.setEnabled)
+        self.comboErrorAccount.currentIndexChanged.connect(self._renderizar_erros)
+        self.btnCopyErrors.clicked.connect(self._copiar_erros)
 
         self.editOperador.editingFinished.connect(
             lambda: self.settings.set("operador", self.editOperador.text().strip())
@@ -128,6 +140,13 @@ class MainWindow(QMainWindow):
     def _on_toggle_auto_retry(self, marcado: bool) -> None:
         self.settings.set("auto_retry", marcado)
         self.migration_manager.auto_retry = marcado
+        self.comboRetryDelay.setEnabled(marcado)
+        self.labelRetryDelay.setEnabled(marcado)
+
+    def _on_retry_delay_changed(self) -> None:
+        segundos = int(self.comboRetryDelay.currentData() or 0)
+        self.settings.set("retry_delay_seconds", segundos)
+        self.migration_manager.retry_delay_ms = segundos * 1000
 
     def _operador_atual(self) -> str:
         return self.editOperador.text().strip() or "Operador não identificado"
@@ -291,6 +310,20 @@ class MainWindow(QMainWindow):
 
     def _atualizar_contador_contas(self) -> None:
         self.labelAccountCount.setText(f"{len(self.accounts)} contas")
+        self._atualizar_filtro_erros()
+
+    def _atualizar_filtro_erros(self) -> None:
+        """Mantém o filtro de erros sincronizado com as contas carregadas."""
+        atual = self.comboErrorAccount.currentData()
+        self.comboErrorAccount.blockSignals(True)
+        self.comboErrorAccount.clear()
+        self.comboErrorAccount.addItem("Todas as contas", None)
+        for conta in self.accounts:
+            self.comboErrorAccount.addItem(conta.email, conta.email)
+        indice = self.comboErrorAccount.findData(atual)
+        self.comboErrorAccount.setCurrentIndex(indice if indice >= 0 else 0)
+        self.comboErrorAccount.blockSignals(False)
+        self._renderizar_erros()
 
     def _linha_da_conta(self, email: str) -> int | None:
         for linha in range(self.tableAccounts.rowCount()):
@@ -368,6 +401,7 @@ class MainWindow(QMainWindow):
             conta.motivo_erro = ""
 
         self.migration_manager.auto_retry = self.checkAutoRetry.isChecked()
+        self.migration_manager.retry_delay_ms = int(self.comboRetryDelay.currentData() or 0) * 1000
         self.migration_manager.configurar(origem, destino, self.accounts, self.extra_flags)
         self.migration_manager.iniciar()
 
@@ -464,9 +498,11 @@ class MainWindow(QMainWindow):
             self.tableAccounts.setItem(linha, COL_MOTIVO, QTableWidgetItem(motivo))
 
         carimbo = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-        self.textGeneralLog.appendPlainText(
-            f"[{carimbo}] [{self._operador_atual()}] [{email}] ERRO: {motivo}"
-        )
+        mensagem = f"[{carimbo}] [{self._operador_atual()}] [{email}] ⚠ ERRO: {motivo}"
+        self.textGeneralLog.appendPlainText(mensagem)
+        self._erros.append((email, carimbo, motivo))
+        self._atualizar_filtro_erros()
+        self.tabLogs.setTabText(self.tabLogs.indexOf(self.tabErrorLog), f"Erros ({len(self._erros)})")
 
     def _on_account_log(self, email: str, line: str) -> None:
         carimbo = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
@@ -495,6 +531,22 @@ class MainWindow(QMainWindow):
         carimbo = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         self.textGeneralLog.appendPlainText(f"[{carimbo}] {mensagem}")
 
+    def _renderizar_erros(self) -> None:
+        email = self.comboErrorAccount.currentData()
+        linhas = []
+        for email_erro, carimbo, motivo in self._erros:
+            if email is None or email == email_erro:
+                linhas.append(f"[{carimbo}] [{email_erro}] ⚠ {motivo}")
+        self.textErrorLog.setPlainText("\n".join(linhas))
+
+    def _copiar_erros(self) -> None:
+        conteudo = self.textErrorLog.toPlainText()
+        if not conteudo:
+            self.statusbar.showMessage("Não há erros para copiar.", 3000)
+            return
+        QApplication.clipboard().setText(conteudo)
+        self.statusbar.showMessage("Erros copiados para a área de transferência.", 3000)
+
     # ------------------------------------------------------------------
     # Logs / exportação
     # ------------------------------------------------------------------
@@ -507,3 +559,17 @@ class MainWindow(QMainWindow):
         with open(caminho, "w", encoding="utf-8") as f:
             f.write(self.textGeneralLog.toPlainText())
         QMessageBox.information(self, "Log exportado", f"Log salvo em:\n{caminho}")
+
+    def _exportar_perfis(self) -> None:
+        sugestao = Path.home() / f"perfis_imapsync_{datetime.now():%Y%m%d_%H%M%S}.json"
+        caminho, _ = QFileDialog.getSaveFileName(
+            self, "Exportar perfis de servidor", str(sugestao), "JSON (*.json)"
+        )
+        if not caminho:
+            return
+        try:
+            self.profile_manager.export_to(Path(caminho))
+        except OSError as exc:
+            QMessageBox.critical(self, "Erro ao exportar perfis", str(exc))
+            return
+        QMessageBox.information(self, "Perfis exportados", f"Perfis salvos em:\n{caminho}")
