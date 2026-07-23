@@ -1,0 +1,9 @@
+cat > .gitattributes << 'EOF'
+* text=auto eol=lf
+
+*.sh text eol=lf
+*.py text eol=lf
+*.ui text eol=lf
+*.md text eol=lf
+*.json text eol=lf
+EOF
