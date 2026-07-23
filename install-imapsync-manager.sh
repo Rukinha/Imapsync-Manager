@@ -17,9 +17,42 @@ command -v sudo >/dev/null || fail "O comando sudo é necessário para instalar 
 
 info "[1/4] Instalando dependências do sistema"
 sudo apt-get update
-sudo apt-get install -y git python3 python3-venv python3-pip imapsync \
-  libgl1 libegl1 libxkbcommon-x11-0 libdbus-1-3 libxcb-cursor0 desktop-file-utils
-ok "Python, imapsync e bibliotecas gráficas instalados"
+
+sudo apt-get install -y \
+  git \
+  python3 \
+  python3-venv \
+  python3-pip \
+  wget \
+  cpanminus \
+  libmail-imapclient-perl \
+  libio-socket-ssl-perl \
+  libdigest-hmac-perl \
+  libauthen-ntlm-perl \
+  libencode-imaputf7-perl \
+  libgl1 \
+  libegl1 \
+  libxkbcommon-x11-0 \
+  libdbus-1-3 \
+  libxcb-cursor0 \
+  desktop-file-utils
+
+if apt-cache show imapsync >/dev/null 2>&1; then
+    sudo apt-get install -y imapsync
+else
+    info "Pacote 'imapsync' não encontrado. Baixando a versão oficial..."
+
+    sudo wget -qO /usr/local/bin/imapsync \
+        https://raw.githubusercontent.com/imapsync/imapsync/master/imapsync
+
+    sudo chmod +x /usr/local/bin/imapsync
+fi
+
+if ! command -v imapsync >/dev/null 2>&1; then
+    fail "Falha ao instalar o imapsync."
+fi
+
+ok "Dependências do sistema e imapsync instalados"
 
 info "[2/4] Baixando ou atualizando o aplicativo"
 if [[ -d "$INSTALL_DIR/.git" ]]; then
