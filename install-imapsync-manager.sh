@@ -85,8 +85,12 @@ ok "Dependências instaladas"
 
 
 info "[2/4] Configurando Python"
-
-python3 -m venv "$VENV_DIR"
+if command -v python3.12 >/dev/null; then
+    PYTHON_BIN=python3.12
+else
+    PYTHON_BIN=python3
+fi
+"$PYTHON_BIN" -m venv "$VENV_DIR"
 
 "$VENV_DIR/bin/python" -m pip install --upgrade pip
 
