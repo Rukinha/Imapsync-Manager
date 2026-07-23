@@ -6,7 +6,6 @@ import io
 from datetime import datetime
 from pathlib import Path
 
-from PyQt6 import uic
 from PyQt6.QtWidgets import QApplication, QMainWindow, QFileDialog, QMessageBox, QTableWidgetItem
 from PyQt6.QtCore import QDateTime, QTimer, Qt
 from PyQt6.QtGui import QColor
@@ -20,7 +19,10 @@ from controllers.migration_manager import MigrationManager
 from controllers.profile_manager_dialog import ProfileManagerDialog
 from controllers.account_dialog import AccountDialog
 
-UI_PATH = Path(__file__).resolve().parent.parent / "ui" / "main_window.ui"
+# UI compilada com: pyuic6 ui/main_window.ui -o controllers/ui_main_window.py
+# (evita depender do uic.loadUi() dinâmico em runtime)
+from controllers.ui_main_window import Ui_MainWindow
+
 LOGS_DIR = Path(__file__).resolve().parent.parent / "logs"
 
 (COL_EMAIL, COL_SENHA_ORIGEM, COL_SENHA_DESTINO, COL_STATUS,
@@ -32,10 +34,10 @@ COR_CONCLUIDO = QColor("#e2f7e2")
 COR_PADRAO = QColor("#ffffff")
 
 
-class MainWindow(QMainWindow):
+class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi(str(UI_PATH), self)
+        self.setupUi(self)
 
         self.profile_manager = ProfileManager()
         self.settings = Settings()
